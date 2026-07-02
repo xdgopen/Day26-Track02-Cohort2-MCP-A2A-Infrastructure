@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Khởi động A2A specialists (8001–8003) — dùng Python conda (pii-env) có google-adk
+# Khởi động A2A specialists (8001–8003) — dùng Python env hiện tại có google-adk
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"

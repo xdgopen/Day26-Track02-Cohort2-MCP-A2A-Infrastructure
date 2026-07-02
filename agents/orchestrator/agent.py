@@ -116,7 +116,7 @@ Quy tắc định tuyến:
 - Tra cứu web / tài liệu → transfer_to_agent(agent_name="search_agent")
 - Metrics / SQL → transfer_to_agent(agent_name="database_agent")
 - Tổng hợp báo cáo cuối → transfer_to_agent(agent_name="synthesis_agent")
-- MCP local: search_documents, sql_query, summarize_text (khi không cần A2A)
+- MCP local: search_documents, sql_query, summarize_text, count_words (khi không cần A2A)
 - suggest_routing: chỉ khi không chắc chọn agent nào
 
 Ví dụ: user nói "Chuyển sang search_agent..." →

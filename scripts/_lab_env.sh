@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Chọn Python/uvicorn/adk có google-adk (conda pii-env) — source từ các script khác.
+# Chọn Python/uvicorn/adk có google-adk — source từ các script khác.
 
 load_dotenv_file() {
   local root="$1"
@@ -24,7 +24,10 @@ resolve_lab_python() {
   local root="${1:-.}"
   local c candidates=()
 
-  # Ưu tiên conda (pii-env) — lab không dùng .venv
+  # Ưu tiên môi trường đang active (venv/conda), sau đó mới tới python trên PATH.
+  if [[ -n "${VIRTUAL_ENV:-}" && -x "${VIRTUAL_ENV}/bin/python" ]]; then
+    candidates+=("${VIRTUAL_ENV}/bin/python")
+  fi
   if [[ -n "${CONDA_PREFIX:-}" && -x "${CONDA_PREFIX}/bin/python" ]]; then
     candidates+=("${CONDA_PREFIX}/bin/python")
   fi
@@ -50,8 +53,13 @@ setup_lab_env() {
   load_dotenv_file "$root"
   LAB_PYTHON="$(resolve_lab_python "$root")" || {
     echo "✗ Không tìm thấy Python có google-adk."
-    echo "  Chạy: conda activate pii-env"
-    echo "  Rồi: pip install -r requirements.txt"
+    echo "  Cách pip/venv:"
+    echo "    python3 -m venv .venv"
+    echo "    source .venv/bin/activate"
+    echo "    python -m pip install -r requirements.txt"
+    echo "  Hoặc dùng Conda nếu muốn:"
+    echo "    conda activate pii-env"
+    echo "    python -m pip install -r requirements.txt"
     exit 1
   }
   export PYTHONPATH="${PYTHONPATH:-}:$root"
